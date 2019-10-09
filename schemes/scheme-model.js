@@ -1,12 +1,10 @@
- const db = require('./dbConfig');
+ const db = require('../data/dbConfig')
 
  module.exports = {
-     find,
-     findById,
-     findSteps,
-     add,
-     addStep,
-     remove
+    find,
+    findById,
+    add,
+    remove
  }
 
  function find() {
@@ -14,26 +12,19 @@
  }
 
  function findById(id) {
-     return db('schemes')
-     .where({ id })
-     .first()
-}
-
-function findSteps(schemeId) {//foreign key is steps column scheme_id
-    return db('steps as st')
-    .join('schemes as sch', 'sch.id', 'st.scheme_id')
-    .select('st.id', 'sch.scheme_name as EvilPlan', 'st.instructions as How', )
-    .where({ scheme_id: schemeId });
+    return db('schemes')
+    .where({ id })
+    .first()
 }
 
 function add(scheme) {
-     
-}
-
-function addStep(step) {
-     
+    return db('schemes')
+    .insert(scheme)
+    .then(([id]) => findById(id))
 }
 
 function remove(id) {
-     
+    return db('schemes')
+    .where({id})
+    .delete()
 }
