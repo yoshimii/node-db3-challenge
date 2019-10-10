@@ -3,6 +3,7 @@ const db = require('../data/dbConfig.js');
 module.exports = {
     findSteps, 
     addStep,
+    update,
     removeStep,
     removeSteps
 }
@@ -20,6 +21,14 @@ function addStep(step) {
     return db('steps')
     .insert(step)
     .then(_ => step)
+}
+
+function update(changes, schemeId, stepNumber) {
+    return db('steps')
+        .update(changes)
+        .where({scheme_id: schemeId})
+        .andWhere({step_number: stepNumber})
+        .then(_ => findSteps(schemeId).where({step_number: stepNumber}))
 }
 
 function removeStep(schemeId, stepNumber) {

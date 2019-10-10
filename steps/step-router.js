@@ -30,7 +30,12 @@ router.post('/:scheme_id', async (req, res) => {
         else res.status(201).json(insertedStep);
     } else res.status(500).json({ error: 'Failed to create new step.' })
 });
-  
+
+router.put('/:scheme_id/:step_number', async (req, res) => {
+    const [err, updatedStep] = await withCatch( Steps.update(req.body, req.params.scheme_id, req.params.step_number) )
+    if (err) res.status(500).json({ error: 'Could not update step with given id.' })
+    else res.status(200).json(updatedStep)
+})
 //remove all steps
 router.delete('/:scheme_id', async (req, res) =>  { 
     const [err, countDeleted] = await withCatch ( Steps.removeSteps(req.params.scheme_id) )
