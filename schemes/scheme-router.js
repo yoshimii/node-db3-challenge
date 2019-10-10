@@ -46,10 +46,10 @@ router.put('/:id', async (req, res) => {
   const changes = req.body;
   const [err, scheme] = await withCatch( Schemes.findById(id) )
 
-  if (err) res.status(500).json({ error: 'Failed to update scheme.' });
+  if (err) res.status(500).json({ error: 'Could not find scheme with given id.' });
   else if (scheme) {
     const [err2, updatedScheme] = await withCatch( Schemes.update(changes, id) )
-    if (err2) res.status(404).json({ error: 'Could not find scheme with given id.' });
+    if (err2) res.status(404).json({ error: 'Failed to update scheme.' });
     else res.json(updatedScheme);
   } else res.status(404).json({ error: 'Could not find scheme with given id.' });
 });

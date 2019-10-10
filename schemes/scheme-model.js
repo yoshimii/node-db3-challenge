@@ -4,6 +4,7 @@
     find,
     findById,
     add,
+    update,
     remove
  }
 
@@ -23,8 +24,14 @@ function add(scheme) {
     .then(([id]) => findById(id))
 }
 
+function update(changes, schemeId) {
+    return db('schemes')
+        .update(changes)
+        .where({ scheme_id: schemeId })
+}
+
 function remove(id) {
     return db('schemes')
-    .where({id})
-    .delete()
+    .where({ id })
+    .delete()   
 }
